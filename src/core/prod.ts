@@ -8,14 +8,12 @@ import { EnvironmentEnum } from "../types/enum"
 const log = createDebug("bot:prod")
 
 const TELEGRAM_SECRET_TOKEN = process.env.TELEGRAM_SECRET_TOKEN
-const PORT = parseInt(process.env.PORT || "3000")
 // auto set by vercel
 const VERCEL_REGION = process.env.VERCEL_REGION
 
 const isPord = ENVIRONMENT === EnvironmentEnum.PRODUCTION
 const prod = async (req: VercelRequest, res: VercelResponse, bot: Telegraf<Context<Update>>) => {
   log("Bot runs in prod mode, region: " + VERCEL_REGION)
-  log(`starting webhook on port: ${PORT}`)
   if (req.method === "POST") {
     await bot.handleUpdate(req.body as unknown as Update, res)
   } else {
