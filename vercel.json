@@ -1,4 +1,5 @@
 {
+  "buildCommand": "yarn webhook",
   "functions": {
     "api/*.ts": {
       "maxDuration": 60

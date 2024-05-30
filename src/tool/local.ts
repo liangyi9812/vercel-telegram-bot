@@ -1,11 +1,9 @@
-import { bot, isDev } from "../core"
+import { bot } from "../core"
 
 ;(async () => {
-  const domain = process.env.TELEGRAM_WEBHOOK_DOMAIN
+  const domain = process.env.VERCEL_PROJECT_PRODUCTION_URL || 'bot.telegram.edison21.tk'
   const secretToken = process.env.TELEGRAM_SECRET_TOKEN
-  if (!isDev) {
-    throw new Error("只能在本地运行, use: yarn setWebhook")
-  } else if (!domain || !secretToken) {
+  if (!domain || !secretToken) {
     throw new Error("[webhook url] or [secretToken] is empty, please check enviroment")
   }
   const webhookUrl = `https://${domain}/api/ahook`
@@ -13,5 +11,5 @@ import { bot, isDev } from "../core"
   if (!res) {
     throw new Error("webhook url set failure, please check log")
   }
-  console.log("设置成功, url: " + webhookUrl)
+  console.log("webhook设置成功, url: " + webhookUrl)
 })()

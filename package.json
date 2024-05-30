@@ -5,10 +5,10 @@
   "main": "src/index.ts",
   "author": "liangyi9812",
   "scripts": {
-    "dev": "dotenv -e .env.development -- nodemon -e ts --exec 'ts-node src/index.ts'",
+    "dev": "dotenv -e .env* -- nodemon -e ts --exec 'ts-node src/index.ts'",
     "prettier": "prettier --write 'src/**/*.ts' 'api/**/*.ts'",
     "lint": "tsc --noemit",
-    "setWebhook": "dotenv -e .env.development ts-node src/tool/local.ts"
+    "webhook": "dotenv -e .env* ts-node src/tool/local.ts"
   },
   "dependencies": {
     "@vercel/node": "^3.1.5",

@@ -11,9 +11,11 @@ if (!BOT_TOKEN) {
   throw new Error("bot token can't be null")
 }
 
-const ENVIRONMENT = process.env.NODE_ENV || process.env.VERCEL_ENV
+const ENVIRONMENT = process.env.VERCEL_ENV || "development"
 if (!ENVIRONMENT) {
   throw new Error("env must to be set!")
+} else {
+  log(`app runs in ${ENVIRONMENT} mode`)
 }
 
 const bot = new Telegraf(BOT_TOKEN)
