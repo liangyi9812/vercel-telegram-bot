@@ -8,7 +8,6 @@ const log = createDebug("bot:dev")
 
 const isDev = ENVIRONMENT === EnvironmentEnum.DEVELOPMENT
 const dev = async (bot: Telegraf<Context<Update>>) => {
-  let webhookUrl: string | undefined
   const botInfo = (await bot.telegram.getMe()).username
   log("Bot runs in dev mode")
 

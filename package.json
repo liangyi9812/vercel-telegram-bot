@@ -8,7 +8,8 @@
     "dev": "dotenv -e .env.development -- nodemon -e ts --exec 'ts-node src/index.ts'",
     "build": "ncc build src/index.ts -o public",
     "prettier": "prettier --write 'src/**/*.ts' 'api/**/*.ts'",
-    "lint": "tsc --noemit"
+    "lint": "tsc --noemit",
+    "setWebhook": "dotenv -e .env.development ts-node src/tool/local.ts"
   },
   "dependencies": {
     "@vercel/node": "^3.1.5",

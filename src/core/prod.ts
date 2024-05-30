@@ -10,27 +10,11 @@ const log = createDebug("bot:prod")
 const TELEGRAM_SECRET_TOKEN = process.env.TELEGRAM_SECRET_TOKEN
 const PORT = parseInt(process.env.PORT || "3000")
 // auto set by vercel
-const VERCEL_URL = process.env.VERCEL_URL
 const VERCEL_REGION = process.env.VERCEL_REGION
-const TELEGRAM_WEBHOOK_SUFFIX = "/api/telegram"
 
 const isPord = ENVIRONMENT === EnvironmentEnum.PRODUCTION
-const prod = async (
-  req: VercelRequest,
-  res: VercelResponse,
-  bot: Telegraf<Context<Update>>
-) => {
+const prod = async (req: VercelRequest, res: VercelResponse, bot: Telegraf<Context<Update>>) => {
   log("Bot runs in prod mode, region: " + VERCEL_REGION)
-  if (!VERCEL_URL || !TELEGRAM_SECRET_TOKEN) {
-    throw new Error("VERCEL_URL or TELEGRAM_SECRET_TOKEN can't be null at prod")
-  }
-  const webhookInfo = await bot.telegram.getWebhookInfo()
-  const newWebhookUrl = VERCEL_URL + TELEGRAM_WEBHOOK_SUFFIX
-  if (!webhookInfo.url || webhookInfo.url !== newWebhookUrl) {
-    log("setting new webhook endpoint: " + newWebhookUrl)
-    await bot.telegram.setWebhook(newWebhookUrl)
-  }
-
   log(`starting webhook on port: ${PORT}`)
   if (req.method === "POST") {
     await bot.handleUpdate(req.body as unknown as Update, res)
@@ -39,11 +23,7 @@ const prod = async (
   }
 }
 
-const beforeHandle = (
-  req: VercelRequest,
-  res: VercelResponse,
-  next: () => any
-) => {
+const beforeHandle = (req: VercelRequest, res: VercelResponse, next: () => any) => {
   const token = req.headers["x-telegram-bot-api-secret-token"]
   if (!token || token !== TELEGRAM_SECRET_TOKEN) {
     res.statusCode = 401 // Unauthorized

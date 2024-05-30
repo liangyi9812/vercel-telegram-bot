@@ -1,16 +1,8 @@
 import createDebug from "debug"
 import { Context } from "telegraf"
 import AdmZip from "adm-zip"
-import {
-  dispatchWorkflow,
-  downloadWorkflowLogs,
-  listWorkflowRuns,
-} from "../github/api"
-import {
-  ActionConclusionEnum,
-  ActionStatusEnum,
-  PikPakActionTypeEnum,
-} from "../types/enum"
+import { dispatchWorkflow, downloadWorkflowLogs, listWorkflowRuns } from "../github/api"
+import { ActionConclusionEnum, ActionStatusEnum, PikPakActionTypeEnum } from "../types/enum"
 import { DispatchWorkflowParam, WorkFlowInfo, WorkFlowRunInfo } from "../types"
 import { $, isDev } from "../core"
 
@@ -25,15 +17,12 @@ const dispatchWorkflowParam: DispatchWorkflowParam = {
 
 export const dispatchPikPakAction = async (ctx: Context) => {
   const param = dispatchWorkflowParam
-  const actionType =
-    isDev ? PikPakActionTypeEnum.MANUAL : PikPakActionTypeEnum.TELEGRAM_WEBHOOK
+  const actionType = isDev ? PikPakActionTypeEnum.MANUAL : PikPakActionTypeEnum.TELEGRAM_WEBHOOK
   const gitActionUrl = $.concatActionUrl(param)
   const success = await dispatchWorkflow(param, actionType)
   // pending
   if (success) {
-    await ctx.replyWithMarkdownV2(
-      `PikPak 账号创建中\\~ [查看运行状态](${gitActionUrl})`
-    )
+    await ctx.replyWithMarkdownV2(`PikPak 账号创建中\\~ [查看运行状态](${gitActionUrl})`)
     if (isDev) {
       Promise.resolve()
         .delay(500)
@@ -71,9 +60,7 @@ const checkStatus = async (ctx: Context) => {
       }
       // 完成, 判断conclusion
       if (conclusion !== ActionConclusionEnum.SUCCESS) {
-        await ctx.replyWithMarkdownV2(
-          `PikPak账号创建失败⚠️, [查看明细](${html_url})`
-        )
+        await ctx.replyWithMarkdownV2(`PikPak账号创建失败⚠️, [查看明细](${html_url})`)
       } else {
         try {
           const { email, password } = await getResultByRunId({
@@ -81,13 +68,9 @@ const checkStatus = async (ctx: Context) => {
             run_id: id,
           })
           if (email && password) {
-            await ctx.reply(
-              `PikPak账号创建成功⭐\nemail: ${email}\npassword: ${password}`
-            )
+            await ctx.reply(`PikPak账号创建成功⭐\nemail: ${email}\npassword: ${password}`)
           } else {
-            await ctx.replyWithMarkdownV2(
-              `PikPak账号提取失败⚠️, [查看明细](${html_url})`
-            )
+            await ctx.replyWithMarkdownV2(`PikPak账号提取失败⚠️, [查看明细](${html_url})`)
           }
         } catch (error) {
           await ctx.reply(`PikPak账号提取错误⚠️, 请检查日志`)
@@ -141,10 +124,7 @@ const getResultByRunId = async (param: WorkFlowRunInfo) => {
   const buffer = await downloadWorkflowLogs(param)
   const zip = new AdmZip(buffer)
   for (const zipEntry of zip.getEntries()) {
-    if (
-      zipEntry.entryName.includes("extract_userinfo") &&
-      zipEntry.entryName.endsWith(".txt")
-    ) {
+    if (zipEntry.entryName.includes("extract_userinfo") && zipEntry.entryName.endsWith(".txt")) {
       const content = zipEntry.getData().toString("utf-8")
       // 在最后两行
       // 倒数第二行 => 账号
