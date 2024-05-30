@@ -12,11 +12,7 @@ if (!BOT_TOKEN) {
 }
 
 const ENVIRONMENT = process.env.VERCEL_ENV || "development"
-if (!ENVIRONMENT) {
-  throw new Error("env must to be set!")
-} else {
-  log(`app runs in ${ENVIRONMENT} mode`)
-}
+log(`app runs in ${ENVIRONMENT} mode`)
 
 const bot = new Telegraf(BOT_TOKEN)
 bot.start(async (ctx) => {
