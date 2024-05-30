@@ -1,5 +1,5 @@
 {
-  "buildCommand": "yarn webhook",
+  "buildCommand": "yarn webhook && mkdir public && touch ./public/pillarcoin",
   "functions": {
     "api/*.ts": {
       "maxDuration": 60
