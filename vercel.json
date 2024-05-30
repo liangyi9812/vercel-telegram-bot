@@ -7,7 +7,7 @@
   "redirects": [
     {
       "source": "/((?!api/ahook|api/send).*)",
-      "destination": "https://www.google.com",
+      "destination": "https://telegram.org",
       "permanent": false
     }
   ]
