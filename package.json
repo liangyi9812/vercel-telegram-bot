@@ -1,0 +1,31 @@
+{
+  "name": "vercel-telegram-bot",
+  "version": "1.0",
+  "description": "Vercel Telegram Bot",
+  "main": "src/index.ts",
+  "author": "liangyi9812",
+  "scripts": {
+    "dev": "dotenv -e .env.development -- nodemon -e ts --exec 'ts-node src/index.ts'",
+    "build": "ncc build src/index.ts -o public",
+    "prettier": "prettier --write 'src/**/*.ts' 'api/**/*.ts'",
+    "lint": "tsc --noemit"
+  },
+  "dependencies": {
+    "@vercel/node": "^3.1.5",
+    "adm-zip": "^0.5.12",
+    "axios": "^1.7.2",
+    "dotenv-cli": "^7.4.2",
+    "telegraf": "^4.16.3"
+  },
+  "devDependencies": {
+    "@types/adm-zip": "^0.5.5",
+    "@types/debug": "^4.1.12",
+    "@types/node": "^20.12.12",
+    "@vercel/ncc": "^0.38.1",
+    "debug": "^4.3.4",
+    "nodemon": "^3.1.1",
+    "prettier": "^3.2.5",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.4.5"
+  }
+}

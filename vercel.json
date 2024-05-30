@@ -1,0 +1,7 @@
+{
+  "redirects": [{ "source": "/", "destination": "/api", "permanent": false }],
+  "rewrites": [
+    { "source": "/api/send", "destination": "/api/send.ts" },
+    { "source": "/api/(.*)", "destination": "/api/ahook.ts" }
+  ]
+}
