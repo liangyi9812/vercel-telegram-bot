@@ -22,6 +22,7 @@ const prod = async (req: VercelRequest, res: VercelResponse, bot: Telegraf<Conte
 }
 
 const beforeHandle = (req: VercelRequest, res: VercelResponse, next: () => any) => {
+  process.env.TZ = "Asia/Shanghai"
   const token = req.headers["x-telegram-bot-api-secret-token"]
   if (!token || token !== TELEGRAM_SECRET_TOKEN) {
     res.statusCode = 401 // Unauthorized
